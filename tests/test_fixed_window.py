@@ -1,13 +1,13 @@
 from ratelimiter.fixed_window import FixedWindowLimiter 
-from conftest import FakeClock
+from tests.conftest import FakeClock 
 
 def test_allow_up_to_limit_then_block(clock):
     rl = FixedWindowLimiter(limit=3, window=10, clock=clock)
     for _ in range(3):
         assert rl.allow("a").allowed 
     blocked = rl.allow("a")
-    assert not blocked.allow 
-    assert blocked.reamining == 0 
+    assert not blocked.allowed
+    assert blocked.remaining == 0 
     assert blocked.retry_after > 0 
 
 
