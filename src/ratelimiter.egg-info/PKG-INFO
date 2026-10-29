@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: ratelimiter
+Version: 0.1.0
+Summary: A Python rate limiter implementation
+Requires-Python: >=3.10

@@ -1,5 +1,6 @@
 from ratelimiter.fixed_window import FixedWindowLimiter 
 from tests.conftest import FakeClock 
+import pytest 
 
 def test_allow_up_to_limit_then_block(clock):
     rl = FixedWindowLimiter(limit=3, window=10, clock=clock)
@@ -36,3 +37,23 @@ def test_boundary_burst_flaw():
     assert all(rl.allow("a").allowed for _ in range(5))
     clock.advance(1.0)           # time is now 10, a brand new window
     assert all(rl.allow("a").allowed for _ in range(5))
+
+
+def test_rejects_zero_limit():
+    with pytest.raises(ValueError):
+        FixedWindowLimiter(limit=0, window=10)
+
+
+def test_rejects_negative_limit():
+    with pytest.raises(ValueError):
+        FixedWindowLimiter(limit=-1, window=10)
+
+def test_rejects_zero_window():
+    with pytest.raises(ValueError):
+        FixedWindowLimiter(limit=5, window=0)
+
+def test_rejects_negative_window():
+    with pytest.raises(ValueError):
+        FixedWindowLimiter(limit=5, window=-10)
+
+        
