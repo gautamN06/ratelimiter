@@ -1,5 +1,5 @@
 from ratelimiter.sliding_window_counter import SlidingWindowCounterLimiter
-from conftest import FakeClock
+from tests.conftest import FakeClock
 
 
 def test_allows_up_to_limit_then_blocks(clock):
